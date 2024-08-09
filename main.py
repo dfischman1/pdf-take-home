@@ -6,11 +6,12 @@ import json
 
 
 DEFAULT_FILE = "SampleHealthRecord_Redacted.pdf"
+patient = "Jeanine Chase"
 prompts = [
-    "I will ask you a few questions based on medical data that I give you. The medical data was a series of pdfs that have now been converted to a JSON object, with the JSON object key corresponding to the page of the original PDF.",
-    "Using the medical data provided below, tell me what surgeries has this patient had. Include the name of the procedure, the date of surgery, and which page of the pdf this came from. \n Medical Data: ",
-    "Using the medical data provided below, tell me what medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the JSON key where this information is sourced. \n Medical Data: ",
-    "Using the medical data provided below, tell me what allergies does the patient have? Include the Allergies and the JSON key where this information is sourced.  \n Medical Data:",
+    f"I will ask you a few questions about {patient} based on medical data that I give you. The medical data was a series of patient records that have now been converted to a JSON object, with the JSON object key corresponding to the page of the original patient record.",
+    f"Using the medical data provided below, tell me what surgeries has {patient} had. Include the name of the procedure, the date of surgery, and which page of the pdf this came from. \n Medical Data: ",
+    f"Using the medical data provided below, tell me what medications has {patient} used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the JSON key where this information is sourced. \n Medical Data: ",
+    f"Using the medical data provided below, tell me what allergies does {patient} have? Include the Allergies and the JSON key where this information is sourced.  \n Medical Data:",
 ]
 
 questions = ["",

@@ -19,17 +19,24 @@ Take as input a pdf, parse it to find:
 Output a word document with questions and answers
 
 
+# Running this:
+This app assumes you have Ollama running locally with llama3 downloaded. You will also need to `pip install -r requirements.txt` .
+Run with `python main.py`
+You can provide a PDF in the input, or the program will automatically use the sample PDF in the repo.
+Other vars such as prompts, and patient name are configured as variables at the top of `main.py`
+
+
 
 ## Tech
 
-- Unstructured API to process pdf into text
-- 
-- LLama to process text and answer questions
+- Pymudf to process pdf into text
+- PyTesseract to run ocr on images in pdf
+- LLama_3_1 to process text and answer questions
+- PyDocx for generating a word document
 
 ## To Do
-- Run Unstructured in a container
 - dockerize other parts of app?
 - use poetry for dependencies
-- use Ollama instead of llama
+- use Ollama in a container
 
 
