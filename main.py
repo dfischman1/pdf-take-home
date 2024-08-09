@@ -1,19 +1,20 @@
 
 import main.llm as llm
 import main.extract as extract
-import main.write_to_docx as docx
+import main.write_to_doc as docx
 import json
 
 
 DEFAULT_FILE = "SampleHealthRecord_Redacted.pdf"
 prompts = [
-    "I will ask you a few questions based on medical data that I give you. This is the medical data in JSON format: \n",
-    "Question 1: Using the provided JSON data can you tell me what Surgeries has this patient had? Include the name of the procedure, the date of surgery, and the JSON key where this information is sourced",
-    "Question 2: Using the provided JSON data can you tell me what medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the JSON key where this information is sourced"
-    "Question 3: Using the provided JSON data can you tell me what allergies does the patient have? Include the Allergies and the JSON key where this information is sourced",
+    "I will ask you a few questions based on medical data that I give you. The medical data was a series of pdfs that have now been converted to a JSON object, with the JSON object key corresponding to the page of the original PDF.",
+    "Using the medical data provided below, tell me what surgeries has this patient had. Include the name of the procedure, the date of surgery, and which page of the pdf this came from. \n Medical Data: ",
+    "Using the medical data provided below, tell me what medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the JSON key where this information is sourced. \n Medical Data: ",
+    "Using the medical data provided below, tell me what allergies does the patient have? Include the Allergies and the JSON key where this information is sourced.  \n Medical Data:",
 ]
 
-questions = [ "1. What Surgeries has this patient had? Include the name of the procedure, the date of surgery, and the page of the pdf where this information is sourced",
+questions = ["",
+             "1. What Surgeries has this patient had? Include the name of the procedure, the date of surgery, and the page of the pdf where this information is sourced",
              "2. What medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the page of the pdf where this information is sourced",
              "3. What allergies does the patient have? Include the Allergies, and the page of the pdf where this information is sourced"
              ]
@@ -43,38 +44,35 @@ def run():
     print("pages extracted. Sending to LLM")
 
     with open("example.txt", "w") as file:
-        file.write(prompt + extracted_pages_json)
+        file.write(extracted_pages_json)
         print("Wrote extracted data to example.txt")
     
     question_and_answer = {}
     # Provide the data to the LLM
-    print(llm.llama3(prompts[0] + extracted_pages_json))
+    print("LLM response to initial data: " + llm.llama3(prompts[0] + extracted_pages_json))
 
     # Ask the LLM the series of questions
     for prompt_idx in range(1, len(prompts)):
-        question_and_answer[questions[prompt_idx - 1]] = llm.llama3(prompts[prompt_idx])
+        question_and_answer[questions[prompt_idx]] = llm.llama3(prompts[prompt_idx] + extracted_pages_json)
     
-    docx.write_out(question_and_answer)
+    docx.write_out_docx(question_and_answer)
     print("Questions and answers saved in Word document questions_and_answers_about_medical_record.docx")
     
 
 def only_llm_trial():
-    responses = []
-
+    question_and_answer = {}
+    med_data = None
     with open("example.txt", "r") as file:
-        prompt1 = "I will ask you a few questions based on medical data that I give you. This is the medical data in JSON format: \n"
-        responses.append(llm.llama3(prompt1 + file.read()))
+        print("LLM response to initial data: " + llm.llama3(prompts[0]))
+        med_data = file.read()
 
-    prompt2 = "Question 1: Using the provided JSON data can you tell me what Surgeries has this patient had? Include the name of the procedure, the date of surgery, and the JSON key where this information is sourced"
-    responses.append(llm.llama3(prompt2))
-
-    prompt3 = "Question 2: Using the provided JSON data can you tell me what medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the JSON key where this information is sourced"
-    responses.append(llm.llama3(prompt3))
-
-    prompt4 = "Question 3: Using the provided JSON data can you tell me what allergies does the patient have? Include the Allergies and the JSON key where this information is sourced"
-    responses.append(llm.llama3(prompt3))
-
-    print(responses)
+    # Ask the LLM the series of questions
+    for prompt_idx in range(1, len(prompts)):
+        question_and_answer[questions[prompt_idx]] = llm.llama3(prompts[prompt_idx] + med_data)
+    
+    file_name = "try1"
+    docx.write_out_txt(question_and_answer, file_name)
+    print(f"Questions and answers saved in txt document {file_name}.txt")
 
 
 

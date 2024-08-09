@@ -1,0 +1,10 @@
+1. What Surgeries has this patient had? Include the name of the procedure, the date of surgery, and the page of the pdf where this information is sourced
+Based on the medical data provided, Deirdre Alimae Lum has had the following surgeries:
+
+* Mandibular and/or Maxillary Hardware Removal (no specific date mentioned)
+
+Please note that the data also mentions several other procedures and tests performed on Deirdre Alimae Lum, but they are not surgical in nature.
+
+2. What medications has this patient used? Include the name of the medication, the date the medication started, and the date ended (if they exist), and the page of the pdf where this information is sourced
+Based on the provided medical data, I did not find any medications mentioned. The data appears to be related to various medical procedures and tests, including urinalysis, ultrasound scans, colonoscopies, ECGs, and blood tests (Hematocrit, CBC). There is no specific mention of medications or treatments.
+

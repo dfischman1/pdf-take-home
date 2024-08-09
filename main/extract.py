@@ -8,7 +8,7 @@ import pytesseract
 def extract_pdf(file) -> dict[int, str]:
     pdf_file = fitz.open(file)
     extracted_pages = {}
-    
+
     for page_index in range(len(pdf_file)): 
     
         image_list = pdf_file.get_page_images(page_index)
@@ -26,7 +26,7 @@ def extract_pdf(file) -> dict[int, str]:
                 image_ext = base_image["ext"] 
                 with open("generated/" + str(image_index) + str(xref) + "." + image_ext, "wb") as fp:
                         fp.write(image_bytes)
-                        image_text = pytesseract.image_to_string(fp.name)
+                        image_text += pytesseract.image_to_string(fp.name) + "\n"
         extracted_pages[page_index + 1] = f"{page_text} \n {image_text}"
 
     return extracted_pages
