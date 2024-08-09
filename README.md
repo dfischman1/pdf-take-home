@@ -30,5 +30,6 @@ Output a word document with questions and answers
 - Run Unstructured in a container
 - dockerize other parts of app?
 - use poetry for dependencies
+- use Ollama instead of llama
 
 
